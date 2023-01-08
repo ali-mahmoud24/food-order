@@ -5,17 +5,18 @@ import Link from 'next/link';
 // import CartButton from '../ui/FormElements/';
 
 import AuthContext from '../../context/auth-context';
-import { useAuth } from '../../hooks/use-auth';
 
 import classes from './Navigation.module.css';
 import HeaderCartButton from '../layout/HeaderCartButton';
+import { useContext } from 'react';
 
 const Navigation: React.FC<{ onShow: () => void }> = (props) => {
-  const { token, login, logout, userId, isOwner } = useAuth();
-  // const router = useRouter();
+  const { logout, token } = useContext(AuthContext);
+  const router = useRouter();
 
   const logoutHandler = async () => {
     logout();
+    router.replace('/');
   };
 
   return (
@@ -33,13 +34,13 @@ const Navigation: React.FC<{ onShow: () => void }> = (props) => {
           </>
         )}
 
-        {!token && (
+        {/* {!token && (
           <li>
-            <Link href={'/auth'}>
+            <Link href={'/'}>
               <button>Login</button>
             </Link>
           </li>
-        )}
+        )} */}
       </ul>
     </nav>
   );

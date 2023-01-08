@@ -1,7 +1,17 @@
 import Head from 'next/head';
+import { useContext, useEffect } from 'react';
+import { useRouter } from 'next/router';
 
-import Hero from '../components/home-page/hero';
+import AuthForm from '../components/Auth/auth-form';
+import AuthContext from '../context/auth-context';
+
 export default function Home() {
+  const authCtx = useContext(AuthContext);
+  const router = useRouter();
+
+  useEffect(() => {
+    authCtx.token ? router.push('/restaurants') : router.push('/');
+  }, []);
   return (
     <>
       <Head>
@@ -13,8 +23,7 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-
-      <Hero />
+      <AuthForm />;
     </>
   );
 }

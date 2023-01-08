@@ -1,48 +1,55 @@
-import Restaurant from '../../models/restaurant';
+import Restaurant from '../../models/restaurant'
 
-import ResturantsSearch from './restaurants-search';
-import ResturantItem from './restaurant-item';
+import ResturantsSearch from './restaurants-search'
+import ResturantItem from './restaurant-item'
 
-import { useState } from 'react';
+import { useMemo, useState } from 'react'
 
-import classes from './restaurant-list.module.css';
+import classes from './restaurant-list.module.css'
 
-const ResturantList: React.FC<{ restaurants: Restaurant[] }> = (props) => {
-  const { restaurants } = props;
+const ResturantList: React.FC<{ restaurants: Restaurant[] }> = props => {
+  const { restaurants } = props
+  const [name, setName] = useState('')
+  const [category, setCategory] = useState('')
 
-  const [restaurantsList, setRestaurants] = useState<Restaurant[]>(restaurants);
+  const findRestaurantsHandler = ({ name, category }) => {
+    if (name !== undefined) {
+      setName(name)
+    }
 
-  const findRestaurantsHandler = (
-    enteredName: string,
-    selectedCategory: string
-  ) => {
-    setRestaurants((prevRestaurants) => {
-      return prevRestaurants.filter(
+    if (category !== undefined) {
+      setCategory(category)
+    }
+  }
+
+  const filteredRestaurants = useMemo(
+    () =>
+      restaurants.filter(
         (restaurant: Restaurant) =>
-          restaurant.name.includes(enteredName) &&
-          restaurant.category === selectedCategory
-      );
-    });
-  };
+          restaurant.name.toLowerCase().includes(name.toLowerCase()) &&
+          (category ? restaurant.category === category : true),
+      ),
+    [restaurants, name, category],
+  )
 
   return (
     <>
-      <ResturantsSearch onSearch={findRestaurantsHandler} />
+      <ResturantsSearch onSearch={findRestaurantsHandler} name={name} category={category} />
 
       <ul className={classes.list}>
-        {restaurantsList.map((restaurant: Restaurant) => (
+        {filteredRestaurants.map((restaurant: Restaurant) => (
           <ResturantItem
             key={restaurant.id}
             id={restaurant.id}
             name={restaurant.name}
             image={restaurant.image}
             category={restaurant.category}
-            location={restaurant.location}
+            address={restaurant.address}
           />
         ))}
       </ul>
     </>
-  );
-};
+  )
+}
 
-export default ResturantList;
+export default ResturantList

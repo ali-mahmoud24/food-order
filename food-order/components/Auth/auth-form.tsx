@@ -33,29 +33,6 @@ const AuthForm = () => {
     },
     false
   );
-
-  // const [formStateSignup, inputHandlerSignup] = useForm(
-  //   {
-  //     firstName: {
-  //       value: '',
-  //       isValid: false,
-  //     },
-  //     secondName: {
-  //       value: '',
-  //       isValid: false,
-  //     },
-  //     emailSignup: {
-  //       value: '',
-  //       isValid: false,
-  //     },
-  //     passwordSignup: {
-  //       value: '',
-  //       isValid: false,
-  //     },
-  //   },
-  //   false
-  // );
-
   const switchAuthModeHandler = () => {
     setIsLoginMode((prevState) => !prevState);
   };
@@ -74,7 +51,7 @@ const AuthForm = () => {
     if (isLoginMode) {
       // POST LOGIN DATA
       try {
-        const loginResponse = await fetch('http://localhost:8000/auth/login', {
+        const loginResponse = await fetch('http://localhost:8000/login', {
           method: 'POST',
           body: JSON.stringify({
             email: formState.inputs.email.value,
@@ -111,18 +88,13 @@ const AuthForm = () => {
         responseBody = { isOwner: true, ...responseBody };
       }
       try {
-        const signupResponse = await fetch(
-          'http://localhost:8000/auth/signup',
-          {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-              responseBody,
-            }),
-          }
-        );
+        const signupResponse = await fetch('http://localhost:8000/signup', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(responseBody),
+        });
 
         const signupData = await signupResponse.json();
 
@@ -150,8 +122,9 @@ const AuthForm = () => {
 
       <div className={classes.authentication}>
         <h2>
-          {isLoginMode ? 'Login Required' : 'Sign Up'}{' '}
-          {isOwner ? '(As Owner)' : ''}
+          {isLoginMode
+            ? 'Login Required'
+            : `Sign Up  ${isOwner ? '(As Owner)' : ''}`}
         </h2>
         <form onSubmit={formSubmitHandler}>
           <Input
@@ -178,28 +151,22 @@ const AuthForm = () => {
           </div>
         </form>
 
-        {isLoginMode ? (
+        <p className={classes.toggle}>
+          {isLoginMode ? 'Not a member' : 'Already a member?'}{' '}
+          <a onClick={switchAuthModeHandler}>
+            {isLoginMode ? 'Signup' : 'Login'}
+          </a>
+        </p>
+
+        {!isLoginMode && (
           <p className={classes.toggle}>
-            Not a member? <a onClick={switchAuthModeHandler}>Signup</a>
-          </p>
-        ) : (
-          <p className={classes.toggle}>
-            Already a member? <a onClick={switchAuthModeHandler}>Login</a>
+            {isOwner ? 'Are you a client?' : 'Are you a restaurant Owner?'}{' '}
+            <a onClick={switchRoleHandler}>
+              {' '}
+              {isOwner ? 'Signup as client' : 'Signup now!'}
+            </a>
           </p>
         )}
-
-        {!isLoginMode &&
-          (isOwner ? (
-            <p className={classes.toggle}>
-              Are you a client?{' '}
-              <a onClick={switchRoleHandler}>Signup as client</a>
-            </p>
-          ) : (
-            <p className={classes.toggle}>
-              Are you a restaurant Owner?{' '}
-              <a onClick={switchRoleHandler}>Signup now!</a>
-            </p>
-          ))}
       </div>
     </div>
   );

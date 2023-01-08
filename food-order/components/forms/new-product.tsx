@@ -55,10 +55,12 @@ const NewProduct = () => {
       formData.append('price', formState.inputs.price.value);
       formData.append('image', formState.inputs.image.value);
 
-      const data = await axios.post(
+      const response = await axios.post(
         `http://localhost:8000/owner/${restaurantId}/add-product`,
         formData
       );
+
+      console.log(response);
 
       // const { restaurantId } = data;
       // console.log(restaurantId);
@@ -88,7 +90,7 @@ const NewProduct = () => {
         id="description"
         element="input"
         label="Product Description (Not required)"
-        // validators={[VALIDATOR_REQUIRE()]}
+        validators={[]}
         // errorMessage="Product's Description must not be empty."
         onInput={inputHandler}
       />

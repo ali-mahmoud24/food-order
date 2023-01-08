@@ -1,30 +1,14 @@
-import React, { useRef } from 'react';
+import { categoryOptions } from '../../utils/categoryList';
 
-import Button from '../ui/FormElements/button';
 import classes from './restaurants-search.module.css';
 
 const RestaurantsSearch: React.FC<{
-  onSearch: (enteredName: string, selectedCategory: string) => void;
-}> = (props) => {
-  const nameInputRef = useRef<HTMLInputElement>(null);
-  const categoryInputRef = useRef<HTMLSelectElement>(null);
-
+  onSearch: ({ name, category }) => void;
+  name: string;
+  category: string;
+}> = ({ name, category, onSearch }) => {
   const submitHandler = (event: React.FormEvent) => {
     event.preventDefault();
-
-    const enteredName = nameInputRef.current!.value.toLowerCase();
-    const selectedCategory = categoryInputRef.current!.value;
-
-    if (
-      enteredName.trim().length === 0 ||
-      selectedCategory.trim().length === 0
-    ) {
-      return;
-    }
-
-    props.onSearch(enteredName, selectedCategory);
-
-    console.log(enteredName, selectedCategory);
   };
 
   return (
@@ -34,22 +18,24 @@ const RestaurantsSearch: React.FC<{
           <label htmlFor="resturant">Resturant name</label>
           <input
             id="resturant"
-            ref={nameInputRef}
+            value={name}
+            onChange={(event) => onSearch({ name: event.target.value })}
             placeholder="Search By name"
           />
         </div>
 
         <div className={classes.control}>
           <label htmlFor="category">Category</label>
-          <select id="category" ref={categoryInputRef}>
-            <option value="syrian-food">Syrian Food</option>
-            <option value="fried-chicken">Fried Chicken</option>
-            <option value="burger">Burger</option>
-            <option value="pizza">Pizza</option>
+          <select
+            id="category"
+            value={category}
+            onChange={(event) => onSearch({ category: event.target.value })}
+          >
+            <option value="">Select</option>
+            {categoryOptions}
           </select>
         </div>
       </div>
-      <Button>Find Resturants</Button>
     </form>
   );
 };

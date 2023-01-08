@@ -1,18 +1,18 @@
-const express = require('express');
+const express = require('express')
 
-const clientController = require('../controllers/client');
-const checkAuth = require('../middleware/check-auth');
+const clientController = require('../controllers/client')
+const checkAuth = require('../middleware/check-auth')
 
-const router = express.Router();
+const router = express.Router()
 
-router.use(checkAuth);
+// router.use(checkAuth)
 
-router.get('/restaurants', clientController.getRestaurants);
+router.get('/restaurants', clientController.getRestaurants)
 
-router.get('/restaurants/:restaurantId', clientController.getRestaurantMenu);
+router.get('/restaurants/:restaurantId', clientController.getRestaurantMenu)
 
-router.post('/restaurants/:restaurantId/add-order', clientController.addOrder);
+router.post('/restaurants/:restaurantId/add-order', clientController.addOrder)
 
-router.get('/orders', clientController.getClientOrders);
+router.get('/orders', clientController.getClientOrders)
 
-module.exports = router;
+module.exports = router

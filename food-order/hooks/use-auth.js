@@ -11,7 +11,10 @@ const getUserData = () => {
   };
 
   try {
-    const localStorageResult = JSON.parse(localStorage.getItem('userData'));
+    const localStorageResult =
+      typeof window !== 'undefined'
+        ? JSON.parse(localStorage.getItem('userData'))
+        : null;
 
     if (localStorageResult) {
       userData = localStorageResult;
@@ -85,21 +88,3 @@ export const useAuth = () => {
 
   return { token, login, logout, userId, isOwner };
 };
-
-// const AuthContextProvider = () => {
-//   const { token, login, logout, userId } = useAuth();
-
-//   return (
-//     <AuthContext.Provider
-//       value={{
-//         isLoggedIn: !!token,
-//         token: token,
-//         userId: userId,
-//         login: login,
-//         logout: logout,
-//       }}
-//     ></AuthContext.Provider>
-//   );
-// };
-
-// export default AuthContextProvider;

@@ -9,21 +9,21 @@ const RestaurantItem: React.FC<{
   id: number;
   name: string;
   image: string;
-  location: string;
+  address: string;
   category: string;
 }> = (props) => {
-  const { id, name, image, location, category } = props;
+  const { id, name, image, address, category } = props;
 
-  const formattedAddress = location.replace(', ', '\n');
+  const formattedAddress = address.replace(', ', '\n');
   const exploreLink = `/restaurants/${id}`;
 
   return (
     <li className={classes.item}>
-      <Image
-        src={`/images/restaurants/${image}`}
+      <img
+        src={`http://localhost:8000/${image}`}
         alt={name}
-        width={300}
-        height={300}
+        // width={300}
+        // height={300}
       />
       <div className={classes.content}>
         <div className={classes.summary}>

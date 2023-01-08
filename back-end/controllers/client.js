@@ -35,7 +35,7 @@ exports.getRestaurants = async (req, res, next) => {
 };
 
 exports.getRestaurantMenu = async (req, res, next) => {
-  const { restaurantId } = req.body;
+  const { restaurantId } = req.params;
 
   let restaurant;
   try {
