@@ -1,59 +1,43 @@
-import ResturantList from '../../components/restaurants/restaurant-list'
+import ResturantList from '../../components/restaurants/restaurant-list';
 
-import { GetStaticProps } from 'next'
-import Restaurant from '../../models/restaurant'
+import { GetStaticProps } from 'next';
+import Restaurant from '../../models/restaurant';
 
-import axios from 'axios'
-import { useEffect, useState } from 'react'
+import axios from 'axios';
 
-const AllRestaurantsPage: React.FC<{ restaurants: Restaurant[] }> = props => {
-  const [isLoading, setIsLoading] = useState(true)
-  const [loadedRestaurants, setLoadedRestaurants] = useState<Restaurant[]>(props.restaurants)
-
-  // useEffect(() => {
-  //   const fetchRestaurants = async () => {
-  //     setIsLoading(true);
-
-  //     const res = await fetch(`http://localhost:8000/client/restaurants`);
-
-  //     const allRestaurants = await res.json();
-
-  //     console.log(allRestaurants);
-  //     setIsLoading(false);
-
-  //     setLoadedRestaurants(allRestaurants);
-  //   };
-  //   fetchRestaurants();
-  // }, []);
-
-  const { restaurants } = props
+const AllRestaurantsPage: React.FC<{ restaurants: Restaurant[] }> = (props) => {
+  const { restaurants } = props;
 
   if (!restaurants) {
-    return <div>Loading...</div>
+    return <div>Loading...</div>;
+  }
+
+  if (restaurants.length === 0) {
+    return <div>Sorry, no restaurants available now.</div>;
   }
 
   return (
     <>
       <ResturantList restaurants={restaurants} />;
     </>
-  )
-}
+  );
+};
 
-export default AllRestaurantsPage
+export default AllRestaurantsPage;
 
 export const getStaticProps: GetStaticProps = async () => {
-  const allRestaurants = await axios.get(`http://localhost:8000/client/restaurants`)
+  const response = await axios.get(`http://localhost:8000/client/restaurants`);
 
-  console.log({ allRestaurants })
+  const { restaurants } = response.data;
 
-  if (!allRestaurants) {
-    return { notFound: true }
+  if (!restaurants) {
+    return { notFound: true };
   }
 
   return {
     props: {
-      restaurants: allRestaurants.data.restaurants,
+      restaurants: restaurants,
     },
     revalidate: 100,
-  }
-}
+  };
+};

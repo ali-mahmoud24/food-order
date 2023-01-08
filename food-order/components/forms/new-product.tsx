@@ -45,30 +45,22 @@ const NewProduct = () => {
     }
 
     try {
-      // setIsLoading(true);
-
       const formData = new FormData();
 
-      formData.append('restaurantId', '63b9e3f106c882e26fefded4');
+      formData.append('restaurantId', restaurantId);
       formData.append('title', formState.inputs.title.value);
       formData.append('description', formState.inputs.description.value);
       formData.append('price', formState.inputs.price.value);
       formData.append('image', formState.inputs.image.value);
 
-      const response = await axios.post(
+      const res = await axios.post(
         `http://localhost:8000/owner/${restaurantId}/add-product`,
         formData
       );
 
-      console.log(response);
-
-      // const { restaurantId } = data;
-      // console.log(restaurantId);
-
-      // setIsLoading(false);
+      console.log(res);
 
       router.replace(`/restaurants/${restaurantId}`);
-      console.log('SUBMITTED');
     } catch (err) {
       console.log(err);
     }

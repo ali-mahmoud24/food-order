@@ -50,6 +50,7 @@ const AuthForm = () => {
 
     if (isLoginMode) {
       // POST LOGIN DATA
+
       try {
         const loginResponse = await fetch('http://localhost:8000/login', {
           method: 'POST',
@@ -79,14 +80,22 @@ const AuthForm = () => {
     } else {
       // POST SIGNUP DATA
 
-      let responseBody = {
-        email: formState.inputs.email.value,
-        password: formState.inputs.password.value,
-      };
+      let responseBody;
 
-      if (isOwner) {
-        responseBody = { isOwner: true, ...responseBody };
+      if (!isOwner) {
+        responseBody = {
+          email: formState.inputs.email.value,
+          password: formState.inputs.password.value,
+        };
+        
+      } else {
+        responseBody = {
+          email: formState.inputs.email.value,
+          password: formState.inputs.password.value,
+          isOwner: true,
+        };
       }
+
       try {
         const signupResponse = await fetch('http://localhost:8000/signup', {
           method: 'POST',
@@ -109,7 +118,7 @@ const AuthForm = () => {
           // router.replace(`/restaurants/${restaurntId}`);
         }
 
-        // router.replace('/restaurants');
+        router.replace('/restaurants');
       } catch (error) {
         alert(error);
       }

@@ -1,4 +1,4 @@
-import UpdateRestaurant from '../../components/restaurants/update-restaurant';
+import UpdateRestaurant from '../../../components/restaurants/update-restaurant';
 
 const UpdateRestaurantPage: React.FC = () => {
   return <UpdateRestaurant />;

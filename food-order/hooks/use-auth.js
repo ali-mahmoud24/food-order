@@ -48,6 +48,8 @@ export const useAuth = () => {
         isOwner,
       })
     );
+
+    // console.log('logged In', token, userId);
   }, []);
 
   const logout = useCallback(() => {

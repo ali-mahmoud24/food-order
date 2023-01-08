@@ -1,16 +1,12 @@
-import React, { useEffect, useContext } from 'react';
-
 import { VALIDATOR_REQUIRE } from '../../utils/validators';
-
-import { useState } from 'react';
+import Product from '../../models/product';
+import { useEffect, useState } from 'react';
 
 import Input from '../ui/FormElements/Input';
 import Button from '../ui/FormElements/button';
 
 import { useRouter } from 'next/router';
 import useForm from '../../hooks/use-form';
-
-import Product from '../../models/product';
 
 import axios from 'axios';
 
@@ -20,11 +16,9 @@ const UpdateProduct = () => {
   const [loadedProduct, setLoadedProduct] = useState<Product>();
   const [isLoading, setIsLoading] = useState(false);
 
-  // const { token } = useContext(AuthContext);
-
   const router = useRouter();
 
-  const { restaurantId } = router.query;
+  const { restaurantId, productId } = router.query;
 
   const [formState, inputHandler, setFormData] = useForm(
     {
@@ -52,13 +46,12 @@ const UpdateProduct = () => {
     const fetchProduct = async () => {
       try {
         setIsLoading(true);
-        const responseData = await axios.get(
+        const response = await axios.get(
           `http://localhost:8000/owner/restaurants/${restaurantId}/${productId}`
         );
         setIsLoading(false);
-        // console.log(responseData.restaurant);
 
-        const product = responseData.product;
+        const product = response.data.product;
 
         setLoadedProduct(product);
 

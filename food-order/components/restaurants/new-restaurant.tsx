@@ -11,8 +11,11 @@ import useForm from '../../hooks/use-form';
 import axios from 'axios';
 
 import classes from './RestaurantForm.module.css';
+import { useContext } from 'react';
+import AuthContext from '../../context/auth-context';
 
 const NewRestaurant = () => {
+  const { userId } = useContext(AuthContext);
   const router = useRouter();
 
   const [formState, inputHandler] = useForm(
@@ -49,24 +52,20 @@ const NewRestaurant = () => {
 
       const formData = new FormData();
 
-      formData.append('ownerId', '63b9e3f106c882e26fefded4');
+      formData.append('ownerId', userId);
       formData.append('name', formState.inputs.name.value);
       formData.append('address', formState.inputs.address.value);
       formData.append('category', formState.inputs.category.value);
       formData.append('image', formState.inputs.image.value);
 
-      const data = await axios.post(
+      const response = await axios.post(
         'http://localhost:8000/owner/add-restaurant',
         formData
       );
 
-      // const { restaurantId } = data;
-      // console.log(restaurantId);
+      const restaurantId = response.data.restaurantId;
 
-      // setIsLoading(false);
-
-      router.replace(`/restaurants`);
-      console.log('SUBMITTED');
+      router.replace(`/restaurants/${restaurantId}`);
     } catch (err) {
       console.log(err);
     }
