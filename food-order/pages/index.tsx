@@ -10,6 +10,7 @@ export default function Home() {
   const router = useRouter();
 
   useEffect(() => {
+    // authCtx.isOwner? router.push(`/restaurants/${restaurantId}`) : router.push('restaurants')
     authCtx.token ? router.push('/restaurants') : router.push('/');
   }, []);
   return (

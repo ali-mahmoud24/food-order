@@ -108,7 +108,7 @@ const NewRestaurant = () => {
       />
 
       <div className={classes.actions}>
-        <Button submit>Add Restaurant</Button>
+        <Button>Add Restaurant</Button>
       </div>
     </form>
   );

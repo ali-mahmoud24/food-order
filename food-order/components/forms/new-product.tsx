@@ -13,7 +13,11 @@ import classes from './product-form.module.css';
 
 const NewProduct = () => {
   const router = useRouter();
+
   const { restaurantId } = router.query;
+  console.log('///////////////////////////////////////////');
+  console.log(restaurantId);
+  console.log('///////////////////////////////////////////');
 
   const [formState, inputHandler] = useForm(
     {
@@ -57,12 +61,14 @@ const NewProduct = () => {
         `http://localhost:8000/owner/${restaurantId}/add-product`,
         formData
       );
+      console.log('submitting');
 
       console.log(res);
 
       router.replace(`/restaurants/${restaurantId}`);
     } catch (err) {
       console.log(err);
+      console.log('errrr');
     }
   };
 
@@ -81,6 +87,7 @@ const NewProduct = () => {
       <Input
         id="description"
         element="input"
+        type="text"
         label="Product Description (Not required)"
         validators={[]}
         // errorMessage="Product's Description must not be empty."
@@ -89,7 +96,8 @@ const NewProduct = () => {
 
       <Input
         id="price"
-        element="number"
+        element="input"
+        type="number"
         label="Product price"
         validators={[VALIDATOR_REQUIRE()]}
         errorMessage="Product's price must not be empty."

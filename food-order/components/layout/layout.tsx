@@ -1,11 +1,17 @@
-import Header from './Header';
+import Cart from '../Cart/Cart';
+import Header from './Navigation';
 
 import classes from './Layout.module.css';
+import MainHeader from './MainHeader';
+import Navigation from './Navigation';
 
-const Layout: React.FC<{ children: any }> = ({ children }) => {
+const Layout: React.FC<{ children: any; onShowCart: () => void }> = ({
+  children,
+  onShowCart,
+}) => {
   return (
     <>
-      <Header />
+      <MainHeader onShowCart={onShowCart} />
       <main className={classes.main}>{children}</main>
     </>
   );

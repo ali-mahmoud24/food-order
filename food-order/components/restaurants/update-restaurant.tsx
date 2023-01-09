@@ -25,6 +25,15 @@ const UpdateRestaurant = () => {
   const router = useRouter();
 
   const { restaurantId } = router.query;
+  if (!restaurantId) {
+    return <div>Loading...</div>;
+  }
+  console.log('///////////////////////////////////////////');
+
+  console.log(router.query);
+  console.log('///////////////////////////////////////////');
+
+  console.log(restaurantId);
 
   const [formState, inputHandler, setFormData] = useForm(
     {
@@ -52,13 +61,12 @@ const UpdateRestaurant = () => {
     const fetchRestaurant = async () => {
       try {
         setIsLoading(true);
-        const responseData = await axios.get(
+        const response = await axios.get(
           `http://localhost:8000/owner/restaurants/${restaurantId}`
         );
         setIsLoading(false);
-        // console.log(responseData.restaurant);
 
-        const restaurant = responseData.restaurant;
+        const restaurant = response.data.restaurant;
 
         setLoadedRestaurant(restaurant);
 
@@ -95,26 +103,30 @@ const UpdateRestaurant = () => {
     event.preventDefault();
 
     try {
-      await axios.patch(
+      const response = await axios.patch(
         `http://localhost:8000/owner/restaurants/${restaurantId}`,
         {
-          firstname: formState.inputs.firstname.value,
-          secondname: formState.inputs.secondname.value,
-          experience: formState.inputs.experience.value,
-          specialization: formState.inputs.specialization.value,
+          name: formState.inputs.name.value,
+          address: formState.inputs.address.value,
+          category: formState.inputs.category.value,
         }
       );
 
-      router.replace('/');
-    } catch (err) {}
-  };
+      console.log('///////////////////////////////////////////');
+      console.log(response);
+      console.log('///////////////////////////////////////////');
 
-  // console.log({ loadedDoctor, formState: formState.inputs.firstname.value });
-  if (loadedRestaurant == null) return null;
+      router.replace(`/restaurants/${restaurantId}`);
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   if (isLoading) {
     return <div>Loading...</div>;
   }
+
+  if (loadedRestaurant == null) return null;
 
   return (
     <form onSubmit={restaurantUpdateSubmitHandler} className={classes.form}>

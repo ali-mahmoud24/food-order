@@ -15,28 +15,28 @@ router.post(
   ownerController.addResaturant
 );
 
-router.get('/restaurant/:restaurantId', ownerController.getSingleRestaurant);
+router.get('/restaurants/:restaurantId', ownerController.getSingleRestaurant);
 
-router.patch('/restaurant/:restaurantId', ownerController.updateRestaurant);
+router.patch('/restaurants/:restaurantId', ownerController.updateRestaurant);
 
 router.post(
-  '/restaurant/:restaurantId/add-product',
+  '/restaurants/:restaurantId/add-product',
   fileUpload.single('image'),
   ownerController.addProductToRestaurant
 );
 
 router.get(
-  '/restaurant/:restaurantId/:productId',
+  '/restaurants/:restaurantId/:productId',
   ownerController.getSingleProduct
 );
 
 router.patch(
-  '/restaurant/:restaurantId/:productId',
+  '/restaurants/:restaurantId/:productId',
   ownerController.updateProduct
 );
 
 router.delete(
-  '/restaurant/:restaurantId/:productId',
+  '/restaurants/:restaurantId/:productId',
   ownerController.deleteProductFromRestaurant
 );
 

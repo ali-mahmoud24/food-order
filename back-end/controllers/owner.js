@@ -103,21 +103,21 @@ exports.updateRestaurant = async (req, res, next) => {
   res.status(200).json({ restaurant: restaurant.toObject({ getters: true }) });
 };
 
-exports.deleteDoctor = async (req, res, next) => {
-  const { doctorId } = req.params;
+// exports.deleteDoctor = async (req, res, next) => {
+//   const { doctorId } = req.params;
 
-  let doctor;
-  try {
-    doctor = await Doctor.findByIdAndDelete({ _id: doctorId });
-    res.status(200).json({ message: 'Deleted a doctor.' });
-  } catch (err) {
-    const error = new HttpError(
-      'Something went wrong, could not delete doctor.',
-      500
-    );
-    return next(error);
-  }
-};
+//   let doctor;
+//   try {
+//     doctor = await Doctor.findByIdAndDelete({ _id: doctorId });
+//     res.status(200).json({ message: 'Deleted a doctor.' });
+//   } catch (err) {
+//     const error = new HttpError(
+//       'Something went wrong, could not delete doctor.',
+//       500
+//     );
+//     return next(error);
+//   }
+// };
 
 exports.getAppointments = async (req, res, next) => {
   let appointments;
@@ -158,7 +158,10 @@ exports.addProductToRestaurant = async (req, res, next) => {
     );
   }
 
-  const { restaurantId, title, description, price } = req.body;
+  const { title, description, price } = req.body;
+  const { restaurantId } = req.params;
+
+  console.log(restaurantId);
 
   const newProduct = new Product({
     restaurantId,
