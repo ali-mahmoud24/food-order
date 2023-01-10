@@ -6,7 +6,7 @@ import ArrowRightIcon from '../icons/arrow-right-icon';
 import classes from './restaurant-item.module.css';
 
 const RestaurantItem: React.FC<{
-  id: number;
+  id: string;
   name: string;
   image: string;
   address: string;

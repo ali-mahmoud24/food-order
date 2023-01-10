@@ -1,12 +1,13 @@
 import { VALIDATOR_REQUIRE } from '../../utils/validators';
-import Product from '../../models/product';
 import { useEffect, useState } from 'react';
+import Product from '../../models/product';
+
+import { useRouter } from 'next/router';
+
+import useForm from '../../hooks/use-form';
 
 import Input from '../ui/FormElements/Input';
 import Button from '../ui/FormElements/button';
-
-import { useRouter } from 'next/router';
-import useForm from '../../hooks/use-form';
 
 import axios from 'axios';
 
@@ -82,7 +83,7 @@ const UpdateProduct = () => {
       }
     };
     fetchProduct();
-  }, [setFormData, restaurantId]);
+  }, [setFormData, restaurantId, productId]);
 
   const productUpdateSubmitHandler = async (event: React.FormEvent) => {
     event.preventDefault();
@@ -101,12 +102,11 @@ const UpdateProduct = () => {
     } catch (err) {}
   };
 
-  // console.log({ loadedDoctor, formState: formState.inputs.firstname.value });
-  if (loadedProduct == null) return null;
-
   if (isLoading) {
     return <div>Loading...</div>;
   }
+
+  if (loadedProduct == null) return null;
 
   return (
     <form onSubmit={productUpdateSubmitHandler} className={classes.form}>
@@ -124,16 +124,17 @@ const UpdateProduct = () => {
       <Input
         id="description"
         element="input"
-        label="Product Description (Not required)"
-        // validators={[VALIDATOR_REQUIRE()]}
-        // errorMessage="Product's Description must not be empty."
+        label="Product Description"
+        validators={[VALIDATOR_REQUIRE()]}
+        errorMessage="Product's Description must not be empty."
         onInput={inputHandler}
         initialValue={loadedProduct.description}
       />
 
       <Input
         id="price"
-        element="number"
+        element="input"
+        type='number'
         label="Product price"
         validators={[VALIDATOR_REQUIRE()]}
         errorMessage="Product's price must not be empty."

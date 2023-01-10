@@ -10,6 +10,8 @@ import { useRouter } from 'next/router';
 
 import { VALIDATOR_EMAIL, VALIDATOR_MINLENGTH } from '../../utils/validators';
 
+import axios from 'axios';
+
 import classes from './AuthForm.module.css';
 
 const AuthForm = () => {
@@ -52,30 +54,23 @@ const AuthForm = () => {
       // POST LOGIN DATA
 
       try {
-        const loginResponse = await fetch('http://localhost:8000/login', {
-          method: 'POST',
-          body: JSON.stringify({
-            email: formState.inputs.email.value,
-            password: formState.inputs.password.value,
-          }),
-          headers: {
-            'Content-Type': 'application/json',
-          },
+        const loginResponse = await axios.post('http://localhost:8000/login', {
+          email: formState.inputs.email.value,
+          password: formState.inputs.password.value,
         });
 
-        // console.log(loginResponse);
+        const loginData = loginResponse.data;
 
-        const loginData = await loginResponse.json();
+        // if (loginData.isOwner) {
+        //   const { restaurntId } = loginResponse.data;
+        //   router.replace(`/restaurants/${restaurntId}`);
+        // }
 
         auth.login(loginData.userId, loginData.token, null, loginData.isOwner);
 
-        if (loginData.isOwner) {
-          // router.replace(`/restaurants/${restaurntId}`);
-        }
-
         router.replace('/restaurants');
       } catch (error) {
-        alert(error);
+        console.log(error);
       }
     } else {
       // POST SIGNUP DATA
@@ -87,7 +82,6 @@ const AuthForm = () => {
           email: formState.inputs.email.value,
           password: formState.inputs.password.value,
         };
-        
       } else {
         responseBody = {
           email: formState.inputs.email.value,
@@ -97,15 +91,12 @@ const AuthForm = () => {
       }
 
       try {
-        const signupResponse = await fetch('http://localhost:8000/signup', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(responseBody),
-        });
+        const signupResponse = await axios.post(
+          'http://localhost:8000/signup',
+          responseBody
+        );
 
-        const signupData = await signupResponse.json();
+        const signupData = signupResponse.data;
 
         auth.login(
           signupData.userId,

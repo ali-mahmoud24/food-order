@@ -1,21 +1,37 @@
 import { useContext } from 'react';
 
-import Image from 'next/image';
+import AuthContext from '../../context/auth-context';
+import CartContext from '../../store/cart-context';
+
+import { useRouter } from 'next/router';
 
 import MealItemForm from './menu-item-form';
+import Button from '../ui/FormElements/button';
 
-import CartContext from '../../store/cart-context';
+import axios from 'axios';
 
 import classes from './menu-item.module.css';
 
 const MenuItem: React.FC<{
   id: string;
-  name: string;
+  title: string;
   price: number;
   description: string;
   image: string;
+  restaurantId: string;
+  onDelete: (productId: string) => void;
 }> = (props) => {
-  const { id, name, price, description, image } = props;
+  const {
+    id: productId,
+    title,
+    price,
+    description,
+    image,
+    restaurantId,
+  } = props;
+
+  const { isOwner } = useContext(AuthContext);
+  const router = useRouter();
 
   const formattedPrice = `EGP ${price.toFixed(2)}`;
 
@@ -23,29 +39,57 @@ const MenuItem: React.FC<{
 
   const addToCartHandler = (amount: number) => {
     cartCtx.addItem({
-      id: props.id,
-      name: props.name,
+      id: productId,
+      name: title,
       amount: amount,
-      price: props.price,
+      price: price,
     });
+  };
+
+  const deleteProductHandler = async () => {
+    try {
+      const response = await axios.delete(
+        `http://localhost:8000/owner/restaurants/${restaurantId}/${productId}`
+      );
+      console.log(response);
+      props.onDelete(productId);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const redirectToEdit = () => {
+    router.push(`restaurants/${restaurantId}/${productId}/update-product`);
   };
 
   return (
     <li className={classes.item}>
-      <Image
-        src={`/images/products/${image}`}
-        alt={name}
-        width={300}
-        height={300}
-      />
+      <div className={classes.img}>
+        <img src={`http://localhost:8000/${image}`} alt={title} />
+      </div>
+
       <div className={classes.content}>
         <div className={classes.summary}>
-          <h2>{name}</h2>
-          <h5>{description}</h5>
-          <h4>EGP {formattedPrice}</h4>
+          <h3>{title}</h3>
+          <h5>{description}.</h5>
+          <h4>{formattedPrice}</h4>
+        </div>
+
+        <div className={classes.actions}>
+          {isOwner ? (
+            <>
+              <Button
+                link={`/restaurants/${restaurantId}/${productId}/update-product`}
+              >
+                Edit
+              </Button>
+              <Button onClick={deleteProductHandler}>Delete</Button>
+            </>
+          ) : (
+            <MealItemForm id={productId} onAddTocart={addToCartHandler} />
+          )}
         </div>
       </div>
-      <MealItemForm id={id} onAddTocart={addToCartHandler} />
     </li>
   );
 };

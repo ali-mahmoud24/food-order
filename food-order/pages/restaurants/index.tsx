@@ -1,37 +1,48 @@
-import ResturantList from '../../components/restaurants/restaurant-list';
+import ResturantList from '../../components/restaurants/restaurant-list'
 
-import { GetStaticProps } from 'next';
-import Restaurant from '../../models/restaurant';
+import { GetStaticProps } from 'next'
+import Restaurant from '../../models/restaurant'
 
-import axios from 'axios';
+import axios from 'axios'
+import { useContext, useEffect } from 'react'
+import AuthContext from '../../context/auth-context'
+import { useRouter } from 'next/router'
 
-const AllRestaurantsPage: React.FC<{ restaurants: Restaurant[] }> = (props) => {
-  const { restaurants } = props;
+const AllRestaurantsPage: React.FC<{ restaurants: Restaurant[] }> = props => {
+  const { isLoggedIn } = useContext(AuthContext)
+  const { restaurants } = props
 
-  if (!restaurants) {
-    return <div>Loading...</div>;
+  const router = useRouter()
+  useEffect(() => {
+    if (!isLoggedIn) {
+      router.push('/')
+    }
+  }, [router, isLoggedIn])
+
+  if (!isLoggedIn || !restaurants) {
+    return <div>Loading...</div>
   }
 
   if (restaurants.length === 0) {
-    return <div>Sorry, no restaurants available now.</div>;
+    return <div>Sorry, no restaurants available now.</div>
   }
 
   return (
     <>
       <ResturantList restaurants={restaurants} />;
     </>
-  );
-};
+  )
+}
 
-export default AllRestaurantsPage;
+export default AllRestaurantsPage
 
 export const getStaticProps: GetStaticProps = async () => {
-  const response = await axios.get(`http://localhost:8000/client/restaurants`);
+  const response = await axios.get(`http://localhost:8000/client/restaurants`)
 
-  const { restaurants } = response.data;
+  const { restaurants } = response.data
 
   if (!restaurants) {
-    return { notFound: true };
+    return { notFound: true }
   }
 
   return {
@@ -39,5 +50,5 @@ export const getStaticProps: GetStaticProps = async () => {
       restaurants: restaurants,
     },
     revalidate: 100,
-  };
-};
+  }
+}

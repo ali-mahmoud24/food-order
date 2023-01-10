@@ -1,38 +1,38 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState } from 'react'
 
-import Modal from '../UI/Modal';
-import CartItem from './CartItem';
-import CartContext from '../../store/cart-context';
+import Modal from '../UI/Modal'
+import CartItem from './CartItem'
+import CartContext from '../../store/cart-context'
 
-import Checkout from './Checkout';
+import Checkout from './Checkout'
 
-import classes from './Cart.module.css';
+import classes from './Cart.module.css'
 
-const Cart: React.FC<{ onClose: () => void }> = (props) => {
-  const [isCheckout, setCheckout] = useState(false);
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [didSubmit, setDidSubmit] = useState(false);
+const Cart: React.FC<{ onClose: () => void }> = props => {
+  const [isCheckout, setCheckout] = useState(false)
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [didSubmit, setDidSubmit] = useState(false)
 
-  const cartCtx = useContext(CartContext);
+  const cartCtx = useContext(CartContext)
 
-  const totalAmount = `EGP ${cartCtx.totalAmount.toFixed(2)}`;
-  const hasItems = cartCtx.items.length > 0;
+  const totalAmount = `EGP ${cartCtx.totalAmount.toFixed(2)}`
+  const hasItems = cartCtx.items.length > 0
 
-  const cartItemAddHandler = (item) => {
-    cartCtx.addItem({ ...item, amount: 1 });
-  };
+  const cartItemAddHandler = item => {
+    cartCtx.addItem({ ...item, amount: 1 })
+  }
 
   const cartItemRemoveHandler = (id: string) => {
-    cartCtx.removeItem(id);
-  };
+    cartCtx.removeItem(id)
+  }
 
   const orderHandler = () => {
-    setCheckout(true);
-  };
+    setCheckout(true)
+  }
 
-  const submitOrderHandler = async (userData) => {
-    setIsSubmitting(true);
-    console.log('SUBMITTING FORMM');
+  const submitOrderHandler = async userData => {
+    setIsSubmitting(true)
+    console.log('SUBMITTING FORMM')
 
     // ADD ORDER TO DATABSE
 
@@ -47,14 +47,14 @@ const Cart: React.FC<{ onClose: () => void }> = (props) => {
     //   }
     // );
 
-    setIsSubmitting(false);
-    setDidSubmit(true);
-    cartCtx.clearCart();
-  };
+    setIsSubmitting(false)
+    setDidSubmit(true)
+    cartCtx.clearCart()
+  }
 
   const cartItems = (
     <ul className={classes['cart-items']}>
-      {cartCtx.items.map((item) => (
+      {cartCtx.items.map(item => (
         <CartItem
           key={item.id}
           name={item.name}
@@ -65,7 +65,7 @@ const Cart: React.FC<{ onClose: () => void }> = (props) => {
         />
       ))}
     </ul>
-  );
+  )
 
   const modalActions = (
     <div className={classes.actions}>
@@ -78,7 +78,7 @@ const Cart: React.FC<{ onClose: () => void }> = (props) => {
         </button>
       )}
     </div>
-  );
+  )
 
   const cartModalContent = (
     <>
@@ -87,14 +87,12 @@ const Cart: React.FC<{ onClose: () => void }> = (props) => {
         <span>Total Amount</span>
         <span>{totalAmount}</span>
       </div>
-      {isCheckout && (
-        <Checkout onConfirm={submitOrderHandler} onCancel={props.onClose} />
-      )}
+      {isCheckout && <Checkout onConfirm={submitOrderHandler} onCancel={props.onClose} />}
       {!isCheckout && modalActions}
     </>
-  );
+  )
 
-  const isSubmittingModalContent = <p>Sending order data...</p>;
+  const isSubmittingModalContent = <p>Sending order data...</p>
   const didSubmitModalContent = (
     <>
       <p>Successfully sent the order!</p>
@@ -104,14 +102,14 @@ const Cart: React.FC<{ onClose: () => void }> = (props) => {
         </button>
       </div>
     </>
-  );
+  )
   return (
     <Modal onClose={props.onClose}>
       {!isSubmitting && !didSubmit && cartModalContent}
       {isSubmitting && isSubmittingModalContent}
       {!isSubmitting && didSubmit && didSubmitModalContent}
     </Modal>
-  );
-};
+  )
+}
 
-export default Cart;
+export default Cart

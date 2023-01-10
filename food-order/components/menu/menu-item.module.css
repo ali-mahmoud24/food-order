@@ -1,12 +1,18 @@
 .item {
+  padding: 20px 0;
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3), 0 1px 12px 2px rgba(0, 0, 0, 0.2);
   border-radius: 8px;
   overflow: hidden;
   background-color: #fff;
-  margin: 1rem;
+  margin: 1.5rem;
   display: flex;
-  flex-direction: column;
-  gap: 1rem;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.img {
+  width: 610px;
 }
 
 .item img {
@@ -25,82 +31,35 @@
   margin: 0.5rem 0;
 }
 
+.summary {
+  text-align: left;
+}
+
 .summary h4 {
+  margin-top: 1rem;
   color: #666666;
-}
-
-.address {
-  display: flex;
-  gap: 0.5rem;
-  align-items: center;
-}
-
-.address svg {
-  width: 1.25rem;
-  height: 1.25rem;
-  color: #666666;
-}
-
-.content address {
-  color: #666666;
-  white-space: pre;
 }
 
 .actions {
+  width: 100%;
   display: flex;
-  flex-direction: column;
   text-align: center;
-  padding: 1rem;
+  gap: 1rem;
+}
+
+.actions button {
+  width: 50%;
+  background-color: rgba(200, 0, 0, 1);
+  padding: 10px 5px;
+  font-size: 1rem;
+}
+
+.actions button:hover {
+  background-color: rgba(255, 0, 0, 0.781);
 }
 
 .actions a {
+  font-size: 1rem;
   display: block;
-}
-
-.actions a span {
-  vertical-align: middle;
-}
-
-.icon {
-  margin-left: 0.5rem;
-  display: inline-flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.icon svg {
-  width: 1.25rem;
-  height: 1.25rem;
-}
-
-@media (min-width: 768px) {
-  .item {
-    flex-direction: row;
-    justify-content: center;
-  }
-
-  .item img {
-    width: 40%;
-    height: 14rem;
-  }
-
-  .content {
-    width: 60%;
-    padding: 0;
-    text-align: left;
-  }
-
-  .content h2 {
-    margin: 1rem 0;
-  }
-
-  .content h4 {
-    margin: 1rem 0;
-  }
-
-  .actions {
-    /* flex-direction: row; */
-    /* justify-content: flex-end; */
-    /* align-items: center; */
-  }
+  width: 50%;
 }

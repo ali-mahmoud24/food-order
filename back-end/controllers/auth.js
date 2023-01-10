@@ -154,5 +154,6 @@ exports.login = async (req, res, next) => {
     userId: loadedUser.id,
     isOwner: loadedUser.isOwner,
     token: token,
+    restaurantId: loadedUser.restaurantId,
   });
 };

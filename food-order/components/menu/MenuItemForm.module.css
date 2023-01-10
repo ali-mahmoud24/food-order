@@ -1,20 +1,27 @@
 .form {
-  text-align: right;
+  /* border: 2px solid black; */
+  padding: 10px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 1rem;
 }
 
 .form button {
-  font: inherit;
+  /* font: inherit; */
   cursor: pointer;
-  background-color: #8a2b06;
-  border: 1px solid #8a2b06;
+  background-color: var(--clr-primary-1);
+  border: 1px solid var(--clr-primary-1);
   color: white;
-  padding: 0.25rem 2rem;
+  padding: 5px 8px;
   border-radius: 20px;
   font-weight: bold;
 }
 
 .form button:hover,
 .form button:active {
-  background-color: #641e03;
-  border-color: #641e03;
+  background-color: var(--clr-primary-2);
+  border-color: var(--clr-primary-2);
 }

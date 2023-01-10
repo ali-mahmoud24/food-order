@@ -1,4 +1,4 @@
-import React, { useEffect, useContext } from 'react';
+import React, { useEffect } from 'react';
 
 import { VALIDATOR_REQUIRE } from '../../utils/validators';
 import { categoryOptions } from '../../utils/categoryList';
@@ -19,21 +19,6 @@ import Restaurant from '../../models/restaurant';
 const UpdateRestaurant = () => {
   const [loadedRestaurant, setLoadedRestaurant] = useState<Restaurant>();
   const [isLoading, setIsLoading] = useState(false);
-
-  // const { token } = useContext(AuthContext);
-
-  const router = useRouter();
-
-  const { restaurantId } = router.query;
-  if (!restaurantId) {
-    return <div>Loading...</div>;
-  }
-  console.log('///////////////////////////////////////////');
-
-  console.log(router.query);
-  console.log('///////////////////////////////////////////');
-
-  console.log(restaurantId);
 
   const [formState, inputHandler, setFormData] = useForm(
     {
@@ -56,6 +41,10 @@ const UpdateRestaurant = () => {
     },
     false
   );
+
+  const router = useRouter();
+
+  const { restaurantId } = router.query;
 
   useEffect(() => {
     const fetchRestaurant = async () => {
@@ -112,10 +101,6 @@ const UpdateRestaurant = () => {
         }
       );
 
-      console.log('///////////////////////////////////////////');
-      console.log(response);
-      console.log('///////////////////////////////////////////');
-
       router.replace(`/restaurants/${restaurantId}`);
     } catch (err) {
       console.log(err);
@@ -163,7 +148,7 @@ const UpdateRestaurant = () => {
       />
 
       <div className={classes.actions}>
-        <Button submit>Add Restaurant</Button>
+        <Button submit>Update Restaurant</Button>
       </div>
     </form>
   );

@@ -1,9 +1,9 @@
 import { useRouter } from 'next/router';
 import { useContext, useEffect } from 'react';
-import NewProduct from '../../../components/forms/new-product';
-import AuthContext from '../../../context/auth-context';
+import UpdateProduct from '../../../../components/forms/update-product';
+import AuthContext from '../../../../context/auth-context';
 
-const NewProductPage: React.FC = () => {
+const UpdateProductPage: React.FC = () => {
   const router = useRouter();
   const { isOwner } = useContext(AuthContext);
 
@@ -12,7 +12,8 @@ const NewProductPage: React.FC = () => {
       router.replace('/restaurants');
     }
   }, [isOwner]);
-  return <NewProduct />;
+
+  return <UpdateProduct />;
 };
 
-export default NewProductPage;
+export default UpdateProductPage;

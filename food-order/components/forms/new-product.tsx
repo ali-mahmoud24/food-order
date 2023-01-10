@@ -1,23 +1,23 @@
-import { VALIDATOR_REQUIRE } from '../../utils/validators';
+import { VALIDATOR_REQUIRE } from '../../utils/validators'
 
-import Input from '../ui/FormElements/Input';
-import ImageUpload from '../ui/FormElements/ImageUpload';
-import Button from '../ui/FormElements/button';
+import Input from '../ui/FormElements/Input'
+import ImageUpload from '../ui/FormElements/ImageUpload'
+import Button from '../ui/FormElements/button'
 
-import { useRouter } from 'next/router';
-import useForm from '../../hooks/use-form';
+import { useRouter } from 'next/router'
+import useForm from '../../hooks/use-form'
 
-import axios from 'axios';
+import axios from 'axios'
 
-import classes from './product-form.module.css';
+import classes from './product-form.module.css'
 
 const NewProduct = () => {
-  const router = useRouter();
+  const router = useRouter()
 
-  const { restaurantId } = router.query;
-  console.log('///////////////////////////////////////////');
-  console.log(restaurantId);
-  console.log('///////////////////////////////////////////');
+  const { restaurantId } = router.query
+  console.log('///////////////////////////////////////////')
+  console.log(restaurantId)
+  console.log('///////////////////////////////////////////')
 
   const [formState, inputHandler] = useForm(
     {
@@ -38,39 +38,39 @@ const NewProduct = () => {
         isValid: false,
       },
     },
-    false
-  );
+    false,
+  )
 
   const submitHandler = async (event: React.FormEvent) => {
-    event.preventDefault();
+    event.preventDefault()
 
     if (!formState.isValid) {
-      return;
+      return
     }
 
     try {
-      const formData = new FormData();
+      const formData = new FormData()
 
-      formData.append('restaurantId', restaurantId);
-      formData.append('title', formState.inputs.title.value);
-      formData.append('description', formState.inputs.description.value);
-      formData.append('price', formState.inputs.price.value);
-      formData.append('image', formState.inputs.image.value);
+      formData.append('restaurantId', restaurantId)
+      formData.append('title', formState.inputs.title.value)
+      formData.append('description', formState.inputs.description.value)
+      formData.append('price', formState.inputs.price.value)
+      formData.append('image', formState.inputs.image.value)
 
       const res = await axios.post(
-        `http://localhost:8000/owner/${restaurantId}/add-product`,
-        formData
-      );
-      console.log('submitting');
+        `http://localhost:8000/owner/restaurants/${restaurantId}/add-product`,
+        formData,
+      )
+      console.log('submitting')
 
-      console.log(res);
+      console.log(res)
 
-      router.replace(`/restaurants/${restaurantId}`);
+      router.replace(`/restaurants/${restaurantId}`)
     } catch (err) {
-      console.log(err);
-      console.log('errrr');
+      console.log(err)
+      console.log('errrr')
     }
-  };
+  }
 
   return (
     <form onSubmit={submitHandler} className={classes.form}>
@@ -104,17 +104,13 @@ const NewProduct = () => {
         onInput={inputHandler}
       />
 
-      <ImageUpload
-        id="image"
-        onInput={inputHandler}
-        errorText="Please provide an image."
-      />
+      <ImageUpload id="image" onInput={inputHandler} errorText="Please provide an image." />
 
       <div className={classes.actions}>
         <Button submit>Add Product</Button>
       </div>
     </form>
-  );
-};
+  )
+}
 
-export default NewProduct;
+export default NewProduct

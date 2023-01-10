@@ -42,7 +42,7 @@ const MealItemForm: React.FC<{
           defaultValue: '1',
         }}
       />
-      <button>+ Add</button>
+      <button>Add to cart</button>
       {!amountIsValid && <p>Please enter a valid anount (1-5).</p>}
     </form>
   );

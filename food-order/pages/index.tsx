@@ -6,13 +6,17 @@ import AuthForm from '../components/Auth/auth-form';
 import AuthContext from '../context/auth-context';
 
 export default function Home() {
-  const authCtx = useContext(AuthContext);
+  const { isLoggedIn, isOwner } = useContext(AuthContext);
   const router = useRouter();
 
   useEffect(() => {
-    // authCtx.isOwner? router.push(`/restaurants/${restaurantId}`) : router.push('restaurants')
-    authCtx.token ? router.push('/restaurants') : router.push('/');
-  }, []);
+    if (isLoggedIn) {
+      router.replace('/restaurants');
+    }
+    // if(isOwner){
+    //   router.replace('')
+    // }
+  }, [isLoggedIn, isOwner]);
   return (
     <>
       <Head>

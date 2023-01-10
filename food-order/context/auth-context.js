@@ -5,7 +5,7 @@ const AuthContext = createContext({
   isOwner: false,
   userId: null,
   token: null,
-  login: () => {},
+  login: (userId, token, expirationDate, isOwner) => {},
   logout: () => {},
 });
 

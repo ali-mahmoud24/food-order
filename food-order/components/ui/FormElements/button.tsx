@@ -21,18 +21,6 @@ const Button: React.FC<{
     );
   }
 
-  if (props.submit) {
-    return (
-      <button
-        type="submit"
-        className={`${classes.btn}${props.className ? props.className : ''}`}
-        // onClick={props.onClick}
-      >
-        {props.children}
-      </button>
-    );
-  }
-
   return (
     <button
       className={`${classes.btn}${props.className ? props.className : ''}`}

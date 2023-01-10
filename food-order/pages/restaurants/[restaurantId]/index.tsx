@@ -59,7 +59,7 @@ const ResturantDetailPage: React.FC<{ restaurant: Resturant }> = (props) => {
           No proudcts in this restaurant.
         </p>
       ) : (
-        <Menu menuItems={restaurant.products} />
+        <Menu products={restaurant.products} restaurantId = {restaurantId} />
       )}
     </>
   );

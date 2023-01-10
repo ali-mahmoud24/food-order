@@ -10,10 +10,11 @@ const Restaurant = require('../models/restaurant');
 const User = require('../models/user');
 
 exports.getSingleRestaurant = async (req, res, next) => {
-  const { restaurantId } = req.body;
+  const { restaurantId } = req.params;
 
   let restaurant;
   try {
+    console.log({ restaurantId });
     restaurant = await Restaurant.findById(restaurantId);
   } catch (err) {
     const error = new HttpError(

@@ -1,28 +1,28 @@
-import '../styles/globals.css';
-import type { AppProps } from 'next/app';
+import '../styles/globals.css'
+import type { AppProps } from 'next/app'
 
-import { useState } from 'react';
+import { useState } from 'react'
 
-import AuthContext from '../context/auth-context';
-import { useAuth } from '../hooks/use-auth';
+import AuthContext from '../context/auth-context'
+import { useAuth } from '../hooks/use-auth'
 
-import CartProvider from '../store/CartProvider';
-import Cart from '../components/Cart/Cart';
+import CartProvider from '../store/CartProvider'
+import Cart from '../components/Cart/Cart'
 
-import Layout from '../components/Layout/Layout';
+import Layout from '../components/Layout/Layout'
 
 export default function App({ Component, pageProps }: AppProps) {
-  const { token, login, logout, userId, isOwner } = useAuth();
+  const { token, login, logout, userId, isOwner } = useAuth()
 
-  const [cartIsShown, setCartIsShown] = useState(false);
+  const [cartIsShown, setCartIsShown] = useState(false)
 
   const showCartHandler = () => {
-    setCartIsShown(true);
-  };
+    setCartIsShown(true)
+  }
 
   const hideCartHandler = () => {
-    setCartIsShown(false);
-  };
+    setCartIsShown(false)
+  }
 
   return (
     <CartProvider>
@@ -43,5 +43,5 @@ export default function App({ Component, pageProps }: AppProps) {
         </Layout>
       </AuthContext.Provider>
     </CartProvider>
-  );
+  )
 }

@@ -1,40 +1,50 @@
-import Restaurant from '../../models/restaurant'
+import Restaurant from '../../models/restaurant';
 
-import ResturantsSearch from './restaurants-search'
-import ResturantItem from './restaurant-item'
+import ResturantsSearch from './restaurants-search';
+import ResturantItem from './restaurant-item';
 
-import { useMemo, useState } from 'react'
+import { useMemo, useState } from 'react';
 
-import classes from './restaurant-list.module.css'
+import classes from './restaurant-list.module.css';
 
-const ResturantList: React.FC<{ restaurants: Restaurant[] }> = props => {
-  const { restaurants } = props
-  const [name, setName] = useState('')
-  const [category, setCategory] = useState('')
+const ResaturantList: React.FC<{ restaurants: Restaurant[] }> = (props) => {
+  const { restaurants } = props;
+  const [name, setName] = useState('');
+  const [category, setCategory] = useState('');
 
-  const findRestaurantsHandler = ({ name, category }) => {
+  const findRestaurantsHandler = ({
+    name,
+    category,
+  }: {
+    name: string;
+    category: string;
+  }) => {
     if (name !== undefined) {
-      setName(name)
+      setName(name);
     }
 
     if (category !== undefined) {
-      setCategory(category)
+      setCategory(category);
     }
-  }
+  };
 
   const filteredRestaurants = useMemo(
     () =>
       restaurants.filter(
         (restaurant: Restaurant) =>
           restaurant.name.toLowerCase().includes(name.toLowerCase()) &&
-          (category ? restaurant.category === category : true),
+          (category ? restaurant.category === category : true)
       ),
-    [restaurants, name, category],
-  )
+    [restaurants, name, category]
+  );
 
   return (
     <>
-      <ResturantsSearch onSearch={findRestaurantsHandler} name={name} category={category} />
+      <ResturantsSearch
+        onSearch={findRestaurantsHandler}
+        name={name}
+        category={category}
+      />
 
       <ul className={classes.list}>
         {filteredRestaurants.map((restaurant: Restaurant) => (
@@ -49,7 +59,7 @@ const ResturantList: React.FC<{ restaurants: Restaurant[] }> = props => {
         ))}
       </ul>
     </>
-  )
-}
+  );
+};
 
-export default ResturantList
+export default ResaturantList;
